@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Placement Pulse — Chetan Nandanwar</title>
+  <meta name="description" content="Case study: redesigning the campus placement journey from a Placement Coordinator's seat. Journey map, metrics, flows and hi-fi screens.">
+  <meta property="og:title" content="Placement Pulse: making the placement journey calm">
+  <meta property="og:description" content="Case study by Chetan Nandanwar.">
+  <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+  <script>(function () { try { var t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {} })();</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="nav">
+    <div class="wrap nav-in">
+      <a class="brand" href="../index.html"><span class="brand-mark">c</span><span>Chetan Nandanwar</span></a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="../index.html#work">Work</a>
+        <a href="../index.html#approach">Approach</a>
+        <a href="../index.html#about">About</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+      <div class="nav-actions">
+        <button class="icon-btn" data-theme-toggle aria-label="Toggle dark mode">
+          <svg class="theme-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+          <svg class="theme-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        </button>
+        <button class="icon-btn menu-btn" data-menu aria-label="Open menu" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="cs-hero">
+      <div class="wrap">
+        <a class="back" href="../index.html#work"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg> All work</a>
+        <span class="eyebrow">Case study 02 · Placement journeys · Service design</span>
+        <h1>Placement Pulse: making the placement journey <em>calm</em></h1>
+        <p class="lede">As a Placement Coordinator at IIT Roorkee, I sit between companies and students. From that seat I watched capable students miss opportunities because the process wasn't clear, not because they lacked skill. So I mapped the journey end to end and designed one place that always tells a student what's next.</p>
+        <div class="honest">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.5v.5"/></svg>
+          <span><strong>Concept grounded in lived experience.</strong> This isn't an official IIT Roorkee project. The observations are my own, from coordinating drives. The screens are hi-fi concepts, the metrics are proposals, and no real student data was used.</span>
+        </div>
+        <div class="cs-meta">
+          <div><small>Role</small><span>Researcher &amp; product designer</span></div>
+          <div><small>Timeline</small><span>Oct – Nov 2026</span></div>
+          <div><small>Platform</small><span>Mobile (students) · Web (coordinators)</span></div>
+          <div><small>Tools</small><span>Figma · FigJam · Claude Code</span></div>
+        </div>
+        <div class="tldr">
+          <div><small>Problem</small><p>Updates are scattered across email, WhatsApp and the portal. Students miss deadlines, and coordinators end up working as human reminder services.</p></div>
+          <div><small>Solution</small><p>A "Next up" timeline for every student, eligibility at a glance, one-tap registration, and a coordinator board that catches clashes before they happen.</p></div>
+          <div><small>Output</small><p>A journey map, problem framing with success metrics, three key flows as hi-fi screens, and a decision log.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="wrap cs-layout">
+      <nav class="toc" aria-label="On this page">
+        <a href="#context">Context</a>
+        <a href="#insights">Insights</a>
+        <a href="#journey">Journey map</a>
+        <a href="#framing">Framing &amp; metrics</a>
+        <a href="#solution">Solution</a>
+        <a href="#decisions">Tradeoffs</a>
+        <a href="#learnings">Learnings</a>
+      </nav>
+
+      <article class="cs-body">
+        <section class="cs-sec" id="context">
+          <span class="eyebrow">01 · Context</span>
+          <h2>I've seen it <em>from the inside.</em></h2>
+          <p>As coordinator I work with corporate HR teams to schedule interviews and run drive logistics. That puts me where every confused question ends up. The pattern repeated drive after drive:</p>
+          <div class="cards">
+            <div class="card mark"><span class="k">What I saw</span><h4>The same questions, over and over</h4><p>"Am I eligible?" "Is the test online?" "Which CV do I upload?" "What's the deadline?"</p></div>
+            <div class="card mark"><span class="k">What I saw</span><h4>Three sources, none in sync</h4><p>Official email, WhatsApp groups and the portal often said slightly different things.</p></div>
+            <div class="card mark"><span class="k">What I saw</span><h4>Avoidable misses</h4><p>Late registrations, the wrong CV version, a missed test link, all with real consequences.</p></div>
+            <div class="card mark"><span class="k">What I saw</span><h4>Interview-day chaos</h4><p>Slot clashes between companies, and students stuck in two queues at once.</p></div>
+          </div>
+          <p class="pull">None of these are skill problems. <em>They're information design problems.</em></p>
+          <h3>How I gathered insight</h3>
+          <ul>
+            <li><strong>My coordinator notes:</strong> a running list of recurring questions and failure points during drives.</li>
+            <li><strong>Informal conversations</strong> with batchmates going through placements and with fellow coordinators.</li>
+            <li><strong>A tool audit</strong> of the current setup: email, portal, WhatsApp groups and shared spreadsheets, and what each one is actually used for.</li>
+          </ul>
+        </section>
+
+        <section class="cs-sec" id="insights">
+          <span class="eyebrow">02 · Insights</span>
+          <h2>Four things that <em>changed my brief.</em></h2>
+          <div class="cards">
+            <div class="card accent"><span class="k">Insight 1</span><h4>Students don't need more information. They need the next step.</h4><p>Every message was another thing to read. Nobody told them what to <em>do</em>.</p></div>
+            <div class="card accent"><span class="k">Insight 2</span><h4>Eligibility anxiety blocks action</h4><p>Unsure whether they qualify, some students simply don't apply, or apply everywhere and clog the process.</p></div>
+            <div class="card accent"><span class="k">Insight 3</span><h4>Trust follows the source</h4><p>When the portal and WhatsApp disagree, students trust whichever forward reached them first. One source of truth beats more channels.</p></div>
+            <div class="card accent"><span class="k">Insight 4</span><h4>Coordinators are reminder systems</h4><p>Most coordinator time goes into chasing confirmations, not into coordination that needs a human.</p></div>
+          </div>
+        </section>
+
+        <section class="cs-sec" id="journey">
+          <span class="eyebrow">03 · Journey map</span>
+          <h2>From "a company is coming" <em>to "I got the offer."</em></h2>
+          <p>Six stages, each with its sharpest pain point and the opportunity it opens up. The line shows how confident a student feels at each stage.</p>
+          <figure class="frame" style="margin-left:0;margin-right:0">
+            <div class="table-scroll">
+              <div class="journey">
+                <svg class="j-curve" viewBox="0 0 600 110" preserveAspectRatio="none" aria-hidden="true">
+                  <line x1="0" y1="55" x2="600" y2="55" style="stroke:var(--line-2)" stroke-dasharray="4 4"/>
+                  <path d="M50 40 C 90 40, 110 90, 150 88 S 220 70, 250 70 S 320 45, 350 50 S 420 95, 450 92 S 520 18, 550 15" fill="none" style="stroke:var(--accent)" stroke-width="3" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+                  <g style="fill:var(--accent)"><circle cx="50" cy="40" r="5"/><circle cx="150" cy="88" r="5" style="fill:var(--mark)"/><circle cx="250" cy="70" r="5"/><circle cx="350" cy="50" r="5"/><circle cx="450" cy="92" r="5" style="fill:var(--mark)"/><circle cx="550" cy="15" r="5" style="fill:var(--good)"/></g>
+                </svg>
+                <div class="j-col"><span class="j-stage">Stage 1</span><h5>Discover</h5><div class="j-pain">Hears about the drive from a WhatsApp forward, not the official source</div><div class="j-opp">One feed, personalised to the student's profile</div></div>
+                <div class="j-col"><span class="j-stage">Stage 2</span><h5>Eligibility</h5><div class="j-pain">Has to read a PDF and work out the criteria themselves</div><div class="j-opp">Auto-check against profile, with clear reasons</div></div>
+                <div class="j-col"><span class="j-stage">Stage 3</span><h5>Register</h5><div class="j-pain">Deadline buried in an email; wrong CV version uploaded</div><div class="j-opp">One-tap register, CV picker, countdown in the last 24h</div></div>
+                <div class="j-col"><span class="j-stage">Stage 4</span><h5>Prepare</h5><div class="j-pain">No idea what the test covers or what past rounds looked like</div><div class="j-opp">A prep kit per company from seniors' notes</div></div>
+                <div class="j-col"><span class="j-stage">Stage 5</span><h5>Test &amp; interview</h5><div class="j-pain">Slot clashes, room changes shared on chat, long waits</div><div class="j-opp">Live slot status and clash detection</div></div>
+                <div class="j-col"><span class="j-stage">Stage 6</span><h5>Offer</h5><div class="j-pain">Unclear rules on accepting or declining, and what it means for other drives</div><div class="j-opp">Plain-language offer rules, shown at decision time</div></div>
+              </div>
+            </div>
+            <figcaption><b>FIG. 1</b> Confidence dips sharply at eligibility and on interview day, which is where the design effort should go.</figcaption>
+          </figure>
+        </section>
+
+        <section class="cs-sec" id="framing">
+          <span class="eyebrow">04 · Framing &amp; metrics</span>
+          <h2>One question to <em>design for.</em></h2>
+          <p class="pull">How might we make sure every student always knows their <em>next step</em>, so coordinators can stop being reminder services?</p>
+          <div class="table-scroll">
+            <table class="metrics">
+              <thead><tr><th>Metric</th><th>Type</th><th>Why it matters</th></tr></thead>
+              <tbody>
+                <tr><td>On-time registration</td><td><span class="pill north">North star</span></td><td>% of eligible students who register before the deadline. This directly measures "no one misses out."</td></tr>
+                <tr><td>Time to register</td><td><span class="pill input">Input</span></td><td>Hours from drive announced to registration. Faster means clearer.</td></tr>
+                <tr><td>Repeat queries per drive</td><td><span class="pill input">Input</span></td><td>"Am I eligible?" and "When's the test?" messages logged by coordinators. Should fall sharply.</td></tr>
+                <tr><td>Interview slot clashes</td><td><span class="pill input">Input</span></td><td>Clashes caught after the schedule is published. Target: zero.</td></tr>
+                <tr><td>Notification opt-outs</td><td><span class="pill guard">Guardrail</span></td><td>If we fix missed deadlines by spamming, students will mute us and we're back to square one.</td></tr>
+                <tr><td>Coordinator hours / drive</td><td><span class="pill guard">Business</span></td><td>Time freed for the work that needs a human, like talking to recruiters.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="cs-sec" id="solution">
+          <span class="eyebrow">05 · Solution</span>
+          <h2>Three flows, <em>one source of truth.</em></h2>
+
+          <h3>A. "Next up": the home screen answers one question</h3>
+          <p>Students open the app to find out what to do, so the home screen says it directly: what's due, how long is left, and a single button to do it.</p>
+          <figure class="frame" style="margin-left:0;margin-right:0">
+            <div class="phone-row">
+              <div class="annot">
+                <div class="phone lg">
+                  <div class="notch"></div>
+                  <h5>Next up</h5>
+                  <small>3 open drives match your profile</small>
+                  <div class="p-big pinned"><span class="a-pin">1</span><small style="color:inherit;opacity:.7">Registration closes in</small><b>5h 20m</b>Fintech Co. · Software Engineer</div>
+                  <div class="p-step done"><i></i>Eligibility checked</div>
+                  <div class="p-step now pinned"><i></i>Register + choose CV<span class="a-pin">2</span></div>
+                  <div class="p-step"><i></i>Online test · Sat, 10 AM</div>
+                  <div class="p-step"><i></i>Interviews · next week</div>
+                  <div class="p-btn pinned">Register in 1 tap<span class="a-pin" style="background:#fff;color:var(--mark)">3</span></div>
+                </div>
+              </div>
+              <div class="annot">
+                <div class="phone lg">
+                  <div class="notch"></div>
+                  <h5>Choose your CV</h5>
+                  <small>Fintech Co. asked for a 1-page CV</small>
+                  <div class="p-step now"><i></i>CV_SDE_v4.pdf <span class="p-chip" style="margin-left:auto">1 page ✓</span></div>
+                  <div class="p-step"><i></i>CV_DataSci_v2.pdf <span class="chip bad" style="margin-left:auto;font-size:10.5px;padding:2px 7px">2 pages</span></div>
+                  <div class="p-step"><i></i>Upload a new one</div>
+                  <div class="p-big" style="background:var(--bg-2);color:var(--ink)"><b style="font-size:13px">You'll get</b>A reminder 24h before the test, and the link 30 min before. Nothing else.</div>
+                  <div class="p-btn">Confirm registration</div>
+                </div>
+              </div>
+            </div>
+            <ol class="a-notes">
+              <li><span><strong>A countdown only in the last 24 hours.</strong> Before that it's a calm date. Urgency when it helps, never permanent alarm.</span></li>
+              <li><span><strong>A step tracker.</strong> Every drive shows where you are and what comes after, so there's no more guessing whether the test is next.</span></li>
+              <li><span><strong>One primary action.</strong> Registration takes one tap, and the CV picker flags files that break the company's rules before you submit.</span></li>
+            </ol>
+            <figcaption><b>FIG. 2</b> The CV picker catches the "wrong version" mistake at the moment it happens. The note tells students exactly what notifications to expect, which builds trust and reduces opt-outs.</figcaption>
+          </figure>
+
+          <h3>B. Eligibility at a glance, with dead ends turned into redirects</h3>
+          <p>Students shouldn't have to read a PDF to find out whether they qualify. The check runs against their profile and shows each criterion. If they don't qualify, it says why and suggests drives they <em>can</em> apply for.</p>
+          <figure class="frame" style="margin-left:0;margin-right:0">
+            <div class="phone-row">
+              <div class="phone lg">
+                <div class="notch"></div>
+                <h5>Am I eligible?</h5>
+                <small>Fintech Co. · checked against your profile</small>
+                <div class="p-step done"><i></i>CGPA ≥ 7.0 <span class="p-chip" style="margin-left:auto">8.05</span></div>
+                <div class="p-step done"><i></i>Branch: M.Tech DS</div>
+                <div class="p-step done"><i></i>No active backlogs</div>
+                <div class="p-step done"><i></i>Not yet placed</div>
+                <div class="p-btn" style="background:var(--good)">You're eligible ✓ Register</div>
+              </div>
+              <div class="phone lg">
+                <div class="notch"></div>
+                <h5>Am I eligible?</h5>
+                <small>Consulting Co. · checked against your profile</small>
+                <div class="p-step" style="border-color:var(--mark);background:var(--mark-soft)"><i style="border-color:var(--mark)"></i>CGPA ≥ 8.5 <span class="chip bad" style="margin-left:auto;font-size:10.5px;padding:2px 7px">8.05</span></div>
+                <div class="p-step done"><i></i>Branch: M.Tech DS</div>
+                <div class="p-big" style="background:var(--accent-soft);color:var(--ink)"><b style="font-size:13px">Not this one, but 4 drives match you</b>Including 2 data roles closing this week.</div>
+                <div class="p-btn">See matching drives</div>
+              </div>
+            </div>
+            <figcaption><b>FIG. 3</b> "Not eligible" never ends at a dead end. It always points to what the student can do next.</figcaption>
+          </figure>
+
+          <h3>C. Coordinator board: catch clashes before students do</h3>
+          <p>On interview day, coordinators need to see every room and every student at once. The board flags a student booked in two places and lets the coordinator fix it before anyone's stuck in two queues.</p>
+          <figure class="frame" style="margin-left:0;margin-right:0">
+            <div class="ui">
+              <div class="ui-top"><span><b style="color:var(--ink)">Interview day</b> · 4 companies · 86 students</span><span class="chip warn">1 clash</span></div>
+              <div class="alert"><b>⚠ Clash</b><span>Student #2041 is booked with <b style="color:inherit">Fintech Co.</b> and <b style="color:inherit">Ed-tech Co.</b> at 2:30 PM. <u>Move to 3:30 PM</u> (both panels free)</span></div>
+              <div class="table-scroll" style="padding:14px">
+                <div class="board">
+                  <div class="h"></div><div class="h">1:30</div><div class="h">2:00</div><div class="h">2:30</div><div class="h">3:00</div><div class="h">3:30</div>
+                  <div class="room">Fintech Co.<small>Room L-12</small></div><div><span class="slot done">#2017 ✓</span></div><div><span class="slot done">#2033 ✓</span></div><div><span class="slot clash">#2041</span></div><div><span class="slot">#2056</span></div><div></div>
+                  <div class="room">Ed-tech Co.<small>Room L-14</small></div><div><span class="slot done">#2008 ✓</span></div><div><span class="slot">#2022</span></div><div><span class="slot clash">#2041</span></div><div></div><div><span class="slot">#2063</span></div>
+                  <div class="room">Consulting Co.<small>Online</small></div><div><span class="slot">#2011</span></div><div></div><div><span class="slot">#2039</span></div><div><span class="slot">#2048</span></div><div><span class="slot">#2070</span></div>
+                </div>
+              </div>
+              <div class="bcast">
+                <div><small>Room change sent to</small><b>24</b></div>
+                <div><small>Seen</small><b style="color:var(--good)">21</b></div>
+                <div><small>Not seen · auto-nudge in 5 min</small><b style="color:var(--mark)">3</b></div>
+              </div>
+            </div>
+            <figcaption><b>FIG. 4</b> Read receipts replace "Did everyone see the message?" The system nudges the three who didn't, so the coordinator doesn't have to.</figcaption>
+          </figure>
+        </section>
+
+        <section class="cs-sec" id="decisions">
+          <span class="eyebrow">06 · Tradeoffs</span>
+          <h2>The decision log</h2>
+          <div class="decision">
+            <div class="no"><span class="lbl">✕ Considered</span><h4>Replace WhatsApp entirely</h4><p>One clean channel, full control.</p></div>
+            <div class="yes"><span class="lbl">✓ Chose</span><h4>App as source of truth, WhatsApp for delivery</h4><p>Official messages link back to the app.</p></div>
+            <div class="why"><b>Why:</b> students live on WhatsApp, and fighting that habit is a fight the product loses. Insight 3 said the real problem was <em>conflicting</em> sources, not the number of channels. So every message points to a single page that's always correct.</div>
+          </div>
+          <div class="decision">
+            <div class="no"><span class="lbl">✕ Considered</span><h4>Always-on countdown timers</h4><p>Maximum urgency, fewer misses.</p></div>
+            <div class="yes"><span class="lbl">✓ Chose</span><h4>Countdown only in the final 24h</h4><p>Calm dates before that.</p></div>
+            <div class="why"><b>Why:</b> placement season is already stressful. Constant red timers would cut misses but raise anxiety and opt-outs. The <b>notification opt-out</b> guardrail is there to keep this decision honest.</div>
+          </div>
+          <div class="decision">
+            <div class="no"><span class="lbl">✕ Considered</span><h4>Hide drives you're not eligible for</h4><p>A cleaner feed.</p></div>
+            <div class="yes"><span class="lbl">✓ Chose</span><h4>Show them, with reasons and redirects</h4><p>Transparency over tidiness.</p></div>
+            <div class="why"><b>Why:</b> a missing drive looks like a bug or a rumour ("I heard X is coming?"). Showing why builds trust in the system and turns a dead end into a next step.</div>
+          </div>
+        </section>
+
+        <section class="cs-sec" id="learnings">
+          <span class="eyebrow">07 · Learnings &amp; next steps</span>
+          <h2>The best feature was <em>the one I removed.</em></h2>
+          <p>My first draft had a feed, a chat, a calendar and a prep forum. Mapping the journey showed that students didn't lack features. They lacked a clear next step. Cutting back to "Next up" made everything else make sense.</p>
+          <p>This applies well beyond one campus. Any platform that promises <strong>learning that ends in a job</strong> runs this same journey: applications, tests, mock interviews, offers. The principles carry over directly: one source of truth, eligibility upfront, and always showing the next step.</p>
+          <h3>What I'd do next</h3>
+          <ul>
+            <li><strong>Usability test</strong> the registration and eligibility flows with 5 students before the next drive season.</li>
+            <li><strong>Pilot</strong> with a single company drive and compare on-time registration with the previous drive.</li>
+            <li><strong>Prep kits:</strong> design how seniors contribute interview notes without exposing confidential questions.</li>
+          </ul>
+          <a class="next-cs" href="lexi.html">
+            <small>Next case study</small>
+            <h3>Lexi: designing trust into a legal AI answer engine <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></h3>
+          </a>
+        </section>
+      </article>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer-in">
+      <span>© <span data-year>2026</span> Chetan Nandanwar</span>
+      <span><a href="../index.html">← Back to home</a> · <a href="../colophon.html">How I built this</a></span>
+    </div>
+  </footer>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>
