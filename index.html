@@ -1,390 +1,44 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Chetan Nandanwar — Data Scientist</title>
-  <meta name="description" content="Chetan Nandanwar — M.Tech Data Science at IIT Roorkee. Deep learning, computer vision, NLP and RAG systems.">
-  <meta property="og:title" content="Chetan Nandanwar — Data Scientist">
-  <meta property="og:description" content="M.Tech Data Science at IIT Roorkee. Deep learning, computer vision, NLP and RAG systems.">
-  <meta property="og:image" content="assets/img/chetan.jpg">
-  <meta name="theme-color" content="#07080c">
-  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/style.css">
-  <script>
-    try { var t = localStorage.getItem('theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
-  </script>
-</head>
-<body>
-  <div class="loader" aria-hidden="true">
-    <span class="loader__mark">cn<i>.</i></span>
-    <span class="loader__bar"><b></b></span>
-  </div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chetan Nandanwar — Data Scientist & ML Engineer</title>
+    <meta name="description" content="Chetan Nandanwar is an M.Tech Data Science student at IIT Roorkee building retrieval systems, computer vision pipelines and data tooling." />
+    <meta name="author" content="Chetan Nandanwar" />
+    <meta name="theme-color" content="#050507" />
+    <meta name="color-scheme" content="dark" />
 
-  <div class="progress" aria-hidden="true"></div>
-  <div class="cursor-glow" aria-hidden="true"></div>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Chetan Nandanwar — Data Scientist & ML Engineer" />
+    <meta property="og:description" content="Retrieval systems, computer vision and data tooling. M.Tech Data Science, IIT Roorkee." />
+    <meta property="og:image" content="/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Chetan Nandanwar — Data Scientist & ML Engineer" />
+    <meta name="twitter:description" content="Retrieval systems, computer vision and data tooling. M.Tech Data Science, IIT Roorkee." />
+    <meta name="twitter:image" content="/og.png" />
 
-  <header class="nav">
-    <a href="#top" class="nav__logo" aria-label="Chetan Nandanwar, home">cn<i>.</i></a>
-    <nav class="nav__links" id="nav-links" aria-label="Primary">
-      <a href="#about">About</a>
-      <a href="#experience">Experience</a>
-      <a href="#projects">Projects</a>
-      <a href="#skills">Skills</a>
-      <a href="#research">Research</a>
-      <a href="#contact" class="nav__cta">Let's talk</a>
-    </nav>
-    <div class="nav__actions">
-      <button class="theme-toggle" type="button" aria-label="Toggle light and dark theme">
-        <svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 1.5v3M12 19.5v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M1.5 12h3M19.5 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg>
-        <svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11z"/></svg>
-      </button>
-      <button class="burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links"><span></span><span></span></button>
-    </div>
-  </header>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
-  <main id="top">
-    <!-- HERO -->
-    <section class="hero">
-      <canvas class="hero__net" aria-hidden="true"></canvas>
-      <div class="hero__grid wrap">
-        <div class="hero__text">
-          <p class="eyebrow hero-in" style="--d:0"><span class="dot"></span> M.Tech Data Science · IIT Roorkee</p>
-          <h1 class="hero__title">
-            <span class="line"><span class="hero-in" style="--d:1">Hi, I'm</span></span>
-            <span class="line"><span class="hero-in grad" style="--d:2">Chetan</span></span>
-            <span class="line"><span class="hero-in grad" style="--d:3">Nandanwar.</span></span>
-          </h1>
-          <p class="hero__role hero-in" style="--d:4">
-            <span class="mono">&gt;</span> I build as a
-            <span class="typed" data-words="Data Scientist|Deep Learning Engineer|Computer Vision Researcher|NLP &amp; RAG Builder"></span><span class="caret"></span>
-          </p>
-          <p class="hero__lede hero-in" style="--d:5">I turn messy data into models that work — from retrieval systems for Indian constitutional law to vision models for surgical scenes and retinal scans.</p>
-          <div class="hero__ctas hero-in" style="--d:6">
-            <a href="#projects" class="btn btn--primary magnetic"><span>See my work</span>
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-            <a href="#contact" class="btn btn--ghost magnetic"><span>Get in touch</span></a>
-          </div>
-          <ul class="socials hero-in" style="--d:7">
-            <li><a href="https://www.linkedin.com/in/chetan-nandanwar-293826225/" target="_blank" rel="noopener" aria-label="LinkedIn">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path class="fill" d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.75h4v11H3zM9.5 9.75h3.8v1.5h.06c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.77 2.65 4.77 6.1v5.45h-4v-4.83c0-1.15-.02-2.63-1.6-2.63-1.6 0-1.85 1.25-1.85 2.55v4.91h-3.95z"/></svg></a></li>
-            <li><a href="https://www.instagram.com/username__string/" target="_blank" rel="noopener" aria-label="Instagram">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle class="fill" cx="17.4" cy="6.6" r="1.1"/></svg></a></li>
-            <li><a href="https://github.com/chetan314" target="_blank" rel="noopener" aria-label="GitHub">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path class="fill" d="M12 1.8a10.2 10.2 0 0 0-3.23 19.88c.51.1.7-.22.7-.49v-1.72c-2.84.62-3.44-1.37-3.44-1.37-.46-1.18-1.13-1.5-1.13-1.5-.93-.63.07-.62.07-.62 1.02.07 1.56 1.05 1.56 1.05.91 1.56 2.39 1.11 2.97.85.09-.66.36-1.11.65-1.37-2.27-.26-4.65-1.13-4.65-5.04 0-1.11.4-2.02 1.05-2.73-.1-.26-.46-1.3.1-2.7 0 0 .86-.28 2.8 1.04a9.7 9.7 0 0 1 5.1 0c1.95-1.32 2.8-1.04 2.8-1.04.56 1.4.2 2.44.1 2.7.66.71 1.05 1.62 1.05 2.73 0 3.92-2.39 4.78-4.66 5.03.37.32.7.94.7 1.9v2.81c0 .27.18.6.7.49A10.2 10.2 0 0 0 12 1.8z"/></svg></a></li>
-            <li><a href="mailto:nandanwar_ch@mfs.iitr.ac.in" aria-label="Email">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="4.5" width="19" height="15" rx="3"/><path d="M3.5 6.5l8.5 6.5 8.5-6.5"/></svg></a></li>
-          </ul>
-        </div>
-
-        <div class="hero__photo hero-in" style="--d:3">
-          <div class="orbit orbit--1"><span></span></div>
-          <div class="orbit orbit--2"><span></span></div>
-          <div class="photo-frame tilt">
-            <img src="assets/img/chetan.jpg" alt="Portrait of Chetan Nandanwar" width="640" height="640">
-          </div>
-          <div class="chip chip--a float"><span class="mono">accuracy</span><b>92%</b></div>
-          <div class="chip chip--b float" style="--fd:1.4s"><span class="mono">model</span><b>BM25 + Semantic</b></div>
-          <div class="chip chip--c float" style="--fd:.7s"><span class="mono">focus</span><b>CV · NLP · DL</b></div>
-        </div>
-      </div>
-      <a href="#stats" class="scroll-cue" aria-label="Scroll down"><span></span></a>
-    </section>
-
-    <!-- STATS -->
-    <section class="stats wrap" id="stats" aria-label="Highlights">
-      <div class="stat reveal"><b><span class="count" data-to="8.05" data-dec="2">0</span></b><span>CGPA at IIT Roorkee</span></div>
-      <div class="stat reveal" style="--rd:.08s"><b><span class="count" data-to="92">0</span>%</b><span>Model accuracy via data tooling</span></div>
-      <div class="stat reveal" style="--rd:.16s"><b><span class="count" data-to="50">0</span>%</b><span>Manual effort cut with SQL</span></div>
-      <div class="stat reveal" style="--rd:.24s"><b><span class="count" data-to="2">0</span></b><span>Published research papers</span></div>
-    </section>
-
-    <!-- ABOUT -->
-    <section class="section wrap" id="about">
-      <div class="section__head reveal">
-        <span class="kicker mono">01 / about</span>
-        <h2>Curious about data,<br><span class="grad">serious about results.</span></h2>
-      </div>
-      <div class="about">
-        <div class="about__body reveal">
-          <p>I'm a second-year <strong>M.Tech student in Data Science at IIT Roorkee</strong>, coming from a B.Tech at SRMIST and a year in industry as a Data Specialist at Forage AI.</p>
-          <p>My work sits where research meets shipping: I've read deeply on <strong>SAM-based and domain-adaptive architectures</strong> for surgical scene analysis, built a <strong>hybrid retrieval Q&amp;A system</strong> for Indian constitutional law, and automated data pipelines that saved teams hours of manual cleanup every week.</p>
-          <p>Outside the notebook, I coordinate campus placements at IIT Roorkee and help run community life at Cautley Bhawan. I speak Hindi, Marathi and English.</p>
-        </div>
-        <aside class="about__card reveal" style="--rd:.1s">
-          <span class="mono label">areas_of_interest = [</span>
-          <ul class="tags">
-            <li>Data Analytics</li><li>Deep Learning</li><li>Computer Vision</li><li>NLP</li><li>RAG Systems</li><li>SQL</li>
-          </ul>
-          <span class="mono label">]</span>
-          <dl class="facts">
-            <div><dt>Based in</dt><dd>Roorkee, India</dd></div>
-            <div><dt>Currently</dt><dd>M.Tech, Year II</dd></div>
-            <div><dt>Open to</dt><dd>Data science &amp; ML roles</dd></div>
-          </dl>
-        </aside>
-      </div>
-    </section>
-
-    <!-- EXPERIENCE -->
-    <section class="section wrap" id="experience">
-      <div class="section__head reveal">
-        <span class="kicker mono">02 / experience</span>
-        <h2>Where I've <span class="grad">worked.</span></h2>
-      </div>
-      <ol class="timeline">
-        <li class="tl reveal">
-          <div class="tl__meta mono">Jun 2026 — Sep 2026</div>
-          <div class="tl__card spot">
-            <h3>Research Intern <span>@ IIT Roorkee</span></h3>
-            <ul>
-              <li>Researched deep learning and computer vision methods for <strong>intraoperative surgical scene analysis</strong>, synthesising four key papers on SAM-based and domain-adaptive architectures.</li>
-              <li>Analysed surgical tool and phase recognition, annotation protocols and OR deployment challenges; delivered technical presentations and analysis documents.</li>
-            </ul>
-            <ul class="pills"><li>Computer Vision</li><li>SAM</li><li>Domain Adaptation</li><li>Research</li></ul>
-          </div>
-        </li>
-        <li class="tl reveal">
-          <div class="tl__meta mono">Mar 2022 — Jan 2023</div>
-          <div class="tl__card spot">
-            <h3>Data Specialist, Technical QA <span>@ Forage AI</span></h3>
-            <ul>
-              <li><strong>Automation for data cleaning:</strong> automated cleaning and structuring of web-scraped data, reducing manual effort by <em>40%</em>.</li>
-              <li><strong>Process re-engineering:</strong> led initiatives with enhanced SQL queries, cutting manual effort by <em>50%</em> and improving process efficiency by <em>~15%</em>.</li>
-              <li><strong>Analysis &amp; tooling:</strong> analysed financial data to detect patterns and anomalies; built a data extraction tool that raised model accuracy to <em>92%</em>.</li>
-            </ul>
-            <ul class="pills"><li>Python</li><li>SQL</li><li>Web Data</li><li>Statistics</li></ul>
-          </div>
-        </li>
-      </ol>
-    </section>
-
-    <!-- PROJECTS -->
-    <section class="section wrap" id="projects">
-      <div class="section__head reveal">
-        <span class="kicker mono">03 / projects</span>
-        <h2>Things I've <span class="grad">built.</span></h2>
-      </div>
-      <div class="projects">
-        <article class="project tilt spot reveal">
-          <div class="project__viz viz-rag" aria-hidden="true">
-            <div class="q mono">Q: What does Article 21A guarantee?</div>
-            <div class="rag-row"><span class="mono">BM25</span><i style="--w:78%"></i></div>
-            <div class="rag-row"><span class="mono">Semantic</span><i style="--w:91%"></i></div>
-            <div class="rag-row"><span class="mono">Fused</span><i style="--w:96%"></i></div>
-            <div class="a mono">→ Art. 21A · Right to education<span class="caret"></span></div>
-          </div>
-          <div class="project__body">
-            <p class="mono project__org">Primus Partners · Dec 2025 — Jan 2026</p>
-            <h3>RAG System for Indian Constitutional Law</h3>
-            <p>A retrieval-augmented Q&amp;A system that fuses <strong>BM25 and semantic search</strong>, with custom logic for the quirks of Indian legal article numbering (think 21 vs 21A vs 243ZH). Served through a FastAPI backend and a Streamlit front end, packaged with Docker.</p>
-            <ul class="pills"><li>RAG</li><li>BM25</li><li>Semantic Search</li><li>FastAPI</li><li>Streamlit</li><li>Docker</li></ul>
-          </div>
-        </article>
-
-        <article class="project tilt spot reveal" style="--rd:.1s">
-          <div class="project__viz viz-eye" aria-hidden="true">
-            <svg viewBox="0 0 200 200">
-              <defs>
-                <radialGradient id="fundus" cx="50%" cy="50%" r="50%">
-                  <stop offset="0%" stop-color="#ffb36b"/><stop offset="70%" stop-color="#d9532b"/><stop offset="100%" stop-color="#5a1408"/>
-                </radialGradient>
-              </defs>
-              <circle cx="100" cy="100" r="86" fill="url(#fundus)"/>
-              <circle cx="128" cy="96" r="14" fill="#ffe6b0" opacity=".9"/>
-              <g class="vessels" fill="none" stroke="#7a1a0c" stroke-width="2.6" stroke-linecap="round">
-                <path d="M128 96 C100 80 70 70 30 62"/><path d="M128 96 C104 110 74 130 38 148"/>
-                <path d="M128 96 C120 60 100 40 82 22"/><path d="M128 96 C122 134 104 160 88 180"/>
-                <path d="M96 76 C88 92 70 98 54 100"/><path d="M100 114 C92 100 76 106 60 120"/>
-              </g>
-              <g class="lesions" fill="#fff4a8">
-                <circle cx="70" cy="86" r="3"/><circle cx="82" cy="128" r="2.4"/><circle cx="62" cy="112" r="2"/><circle cx="108" cy="58" r="2.2"/>
-              </g>
-              <rect class="scan" x="14" y="14" width="172" height="3" fill="#7cf7ff"/>
-            </svg>
-          </div>
-          <div class="project__body">
-            <p class="mono project__org">SRMIST · Jan 2021 — May 2021</p>
-            <h3>Early Detection of Diabetic Retinopathy</h3>
-            <p>A unified, semantic pipeline for retinal fundus images: <strong>morphological operations and segmentation</strong> to detect blood vessels, exudates and microaneurysms, with features extracted from four sub-image partitions for classification after removing background variation and noise. Published in 2021.</p>
-            <ul class="pills"><li>Image Processing</li><li>Segmentation</li><li>Feature Engineering</li><li>Classification</li></ul>
-          </div>
-        </article>
-
-        <article class="project tilt spot reveal">
-          <div class="project__viz viz-scatter" aria-hidden="true">
-            <svg viewBox="0 0 200 140">
-              <g class="axis" stroke-width="1"><path d="M20 120H190M20 120V10"/></g>
-              <g class="pts">
-                <circle cx="34" cy="108" r="3"/><circle cx="48" cy="100" r="3"/><circle cx="58" cy="96" r="3"/><circle cx="70" cy="84" r="3"/>
-                <circle cx="84" cy="80" r="3"/><circle cx="96" cy="70" r="3"/><circle cx="108" cy="66" r="3"/><circle cx="122" cy="54" r="3"/>
-                <circle cx="134" cy="52" r="3"/><circle cx="148" cy="40" r="3"/><circle cx="160" cy="36" r="3"/><circle cx="174" cy="24" r="3"/>
-                <circle cx="66" cy="92" r="3"/><circle cx="114" cy="58" r="3"/><circle cx="142" cy="48" r="3"/>
-              </g>
-              <path class="fit" d="M28 112 L180 22" fill="none" stroke-width="2.4" stroke-linecap="round"/>
-            </svg>
-          </div>
-          <div class="project__body">
-            <p class="mono project__org">SRMIST · Research · 2020</p>
-            <h3>Projecting Height &amp; Weight with ML</h3>
-            <p>Machine-learning models that project a person's height and weight from <strong>anthropometric measurements</strong>. Published in the International Journal of Advanced Science and Technology (SERSC).</p>
-            <ul class="pills"><li>Machine Learning</li><li>Regression</li><li>Python</li><li>Pandas</li></ul>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <!-- SKILLS -->
-    <section class="section" id="skills">
-      <div class="wrap">
-        <div class="section__head reveal">
-          <span class="kicker mono">04 / skills</span>
-          <h2>My <span class="grad">toolkit.</span></h2>
-        </div>
-      </div>
-      <div class="marquee" aria-hidden="true">
-        <div class="marquee__track">
-          <span>Python</span><span>Machine Learning</span><span>SQL</span><span>Pandas</span><span>NumPy</span><span>Computer Vision</span><span>NLP</span><span>RAG</span><span>FastAPI</span><span>Docker</span><span>Streamlit</span><span>MySQL</span>
-          <span>Python</span><span>Machine Learning</span><span>SQL</span><span>Pandas</span><span>NumPy</span><span>Computer Vision</span><span>NLP</span><span>RAG</span><span>FastAPI</span><span>Docker</span><span>Streamlit</span><span>MySQL</span>
-        </div>
-      </div>
-      <div class="marquee marquee--rev" aria-hidden="true">
-        <div class="marquee__track">
-          <span>Deep Learning</span><span>Matplotlib</span><span>Jupyter</span><span>Google Colab</span><span>GitHub</span><span>Excel</span><span>C++</span><span>C</span><span>Statistics</span><span>Data Analytics</span><span>Segmentation</span>
-          <span>Deep Learning</span><span>Matplotlib</span><span>Jupyter</span><span>Google Colab</span><span>GitHub</span><span>Excel</span><span>C++</span><span>C</span><span>Statistics</span><span>Data Analytics</span><span>Segmentation</span>
-        </div>
-      </div>
-      <div class="wrap skills">
-        <div class="skill-group reveal spot">
-          <h3><span class="mono">01</span> Languages</h3>
-          <ul class="pills"><li>Python</li><li>C++</li><li>C</li><li>SQL</li></ul>
-        </div>
-        <div class="skill-group reveal spot" style="--rd:.08s">
-          <h3><span class="mono">02</span> ML &amp; Data</h3>
-          <ul class="pills"><li>Pandas</li><li>NumPy</li><li>Matplotlib</li><li>Deep Learning</li><li>Computer Vision</li><li>NLP / RAG</li></ul>
-        </div>
-        <div class="skill-group reveal spot" style="--rd:.16s">
-          <h3><span class="mono">03</span> Tools &amp; Deploy</h3>
-          <ul class="pills"><li>MySQL</li><li>FastAPI</li><li>Streamlit</li><li>Docker</li><li>Jupyter</li><li>Colab</li><li>GitHub</li><li>Excel</li></ul>
-        </div>
-        <div class="skill-group reveal spot" style="--rd:.24s">
-          <h3><span class="mono">04</span> CS Fundamentals</h3>
-          <ul class="pills"><li>DSA</li><li>DBMS</li><li>OOPs</li><li>Operating Systems</li><li>Computer Networks</li></ul>
-        </div>
-      </div>
-    </section>
-
-    <!-- EDUCATION + LEADERSHIP -->
-    <section class="section wrap" id="education">
-      <div class="section__head reveal">
-        <span class="kicker mono">05 / education &amp; leadership</span>
-        <h2>Learning, and <span class="grad">leading.</span></h2>
-      </div>
-      <div class="edu">
-        <article class="edu__card spot reveal">
-          <span class="edu__year mono">2025 — 2027</span>
-          <h3>M.Tech, Data Science</h3>
-          <p>Indian Institute of Technology, Roorkee</p>
-          <span class="score"><b>8.05</b> CGPA</span>
-        </article>
-        <article class="edu__card spot reveal" style="--rd:.08s">
-          <span class="edu__year mono">— 2021</span>
-          <h3>B.Tech (Undergraduate)</h3>
-          <p>SRM Institute of Science and Technology</p>
-          <span class="score"><b>7.26</b> CGPA</span>
-        </article>
-        <article class="edu__card spot reveal" style="--rd:.16s">
-          <span class="edu__year mono">2017</span>
-          <h3>Class XII</h3>
-          <p>Dinanath High School &amp; Jr. College, Maharashtra Board</p>
-          <span class="score"><b>76.62</b> %</span>
-        </article>
-        <article class="edu__card spot reveal" style="--rd:.24s">
-          <span class="edu__year mono">2014</span>
-          <h3>Class X</h3>
-          <p>St. Xavier's, CBSE</p>
-          <span class="score"><b>8.8</b> CGPA</span>
-        </article>
-      </div>
-
-      <div class="lead">
-        <article class="lead__card reveal">
-          <div class="lead__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2.5"/><path d="M8 7V5.5A1.5 1.5 0 0 1 9.5 4h5A1.5 1.5 0 0 1 16 5.5V7M3 12.5h18"/></svg></div>
-          <div>
-            <p class="mono lead__when">Apr 2026 — Present</p>
-            <h3>Placement Coordinator</h3>
-            <p class="lead__org">Placement &amp; Internship Cell, IIT Roorkee</p>
-            <p>Coordinate with corporate HR teams to schedule interviews and keep candidate evaluations on time; manage company outreach and recruitment-drive participation for campus placements.</p>
-          </div>
-        </article>
-        <article class="lead__card reveal" style="--rd:.1s">
-          <div class="lead__icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 20s-7.5-4.6-7.5-10.2A4.3 4.3 0 0 1 12 7.2a4.3 4.3 0 0 1 7.5 2.6C19.5 15.4 12 20 12 20z"/></svg></div>
-          <div>
-            <p class="mono lead__when">Aug 2025 — Sep 2026</p>
-            <h3>Wellness Council Member</h3>
-            <p class="lead__org">Cautley Bhawan, IIT Roorkee</p>
-            <p>Led the renovation and upkeep of shared wellness and library facilities, and organised community events through the academic year to bring residents together.</p>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <!-- RESEARCH -->
-    <section class="section wrap" id="research">
-      <div class="section__head reveal">
-        <span class="kicker mono">06 / research</span>
-        <h2>Published <span class="grad">work.</span></h2>
-      </div>
-      <div class="pubs">
-        <article class="pub reveal">
-          <span class="pub__year">2021</span>
-          <div>
-            <h3>A Unified and Semantic Methodology for Early Detection of Diabetic Retinopathy using Artificial Intelligence</h3>
-            <p class="pub__authors">Aruna Arulmani, <b>Chetan Nandanwar</b>, Wahid Alhaan, Sumeet Kumar</p>
-            <p class="pub__venue mono">Annals of the Romanian Society for Cell Biology</p>
-          </div>
-        </article>
-        <article class="pub reveal">
-          <span class="pub__year">2020</span>
-          <div>
-            <h3>Projecting Height and Weight with Machine Learning Using Anthropometric Measurements</h3>
-            <p class="pub__authors">Shiela David, <b>Chetan Nandanwar</b>, Sumeet Kumar, Wahid Alhaan</p>
-            <p class="pub__venue mono">International Journal of Advanced Science and Technology (SERSC)</p>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <!-- CONTACT -->
-    <section class="contact" id="contact">
-      <div class="wrap contact__inner">
-        <span class="kicker mono reveal">07 / contact</span>
-        <h2 class="contact__title reveal">Have data that needs<br><span class="grad">a story?</span></h2>
-        <p class="reveal">I'm open to data science, ML and research roles. Drop a line and let's talk.</p>
-        <a class="contact__mail magnetic reveal" href="mailto:nandanwar_ch@mfs.iitr.ac.in">
-          <span>nandanwar_ch@mfs.iitr.ac.in</span>
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"/></svg>
-        </a>
-        <button class="copy mono reveal" type="button" data-copy="nandanwar_ch@mfs.iitr.ac.in">copy email</button>
-        <div class="contact__links reveal">
-          <a href="https://www.linkedin.com/in/chetan-nandanwar-293826225/" target="_blank" rel="noopener" class="magnetic">LinkedIn ↗</a>
-          <a href="https://www.instagram.com/username__string/" target="_blank" rel="noopener" class="magnetic">Instagram ↗</a>
-          <a href="https://github.com/chetan314" target="_blank" rel="noopener" class="magnetic">GitHub ↗</a>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer class="footer wrap">
-    <span>© <span id="year">2026</span> Chetan Nandanwar</span>
-    <span class="mono">Built with HTML, CSS &amp; a little JavaScript.</span>
-    <a href="#top" class="to-top" aria-label="Back to top">↑</a>
-  </footer>
-
-  <div class="toast mono" role="status" aria-live="polite"></div>
-  <script src="assets/js/main.js"></script>
-</body>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Chetan Nandanwar",
+        "jobTitle": "Data Scientist",
+        "alumniOf": ["Indian Institute of Technology Roorkee", "SRM Institute of Science and Technology"],
+        "sameAs": ["https://github.com/chetan314"]
+      }
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <noscript>Chetan Nandanwar — Data Scientist & ML Engineer, M.Tech Data Science at IIT Roorkee.</noscript>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
 </html>

@@ -2,3 +2,7 @@
 .claude/
 PORTFOLIO_PLAYBOOK.md
 assets/Chetan-Nandanwar-Resume.pdf
+node_modules/
+dist/
+*.local
+*.tsbuildinfo
