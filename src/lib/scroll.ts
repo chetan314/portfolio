@@ -2,32 +2,36 @@ import Lenis from 'lenis'
 
 let lenis: Lenis | null = null
 
-export function startSmoothScroll() {
+/** Starts momentum scrolling unless the user prefers reduced motion. */
+export function initSmoothScroll() {
+  if (typeof window === 'undefined') return () => {}
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return () => {}
-  lenis = new Lenis({ duration: 1.15, easing: (t) => 1 - Math.pow(1 - t, 4), smoothWheel: true })
-  let raf = 0
-  const loop = (time: number) => {
-    lenis?.raf(time)
-    raf = requestAnimationFrame(loop)
+  lenis = new Lenis({ lerp: 0.1, wheelMultiplier: 1, smoothWheel: true })
+  if (import.meta.env.DEV) (window as unknown as { __lenis: Lenis }).__lenis = lenis
+  let id = 0
+  const raf = (t: number) => {
+    lenis?.raf(t)
+    id = requestAnimationFrame(raf)
   }
-  raf = requestAnimationFrame(loop)
+  id = requestAnimationFrame(raf)
   return () => {
-    cancelAnimationFrame(raf)
+    cancelAnimationFrame(id)
     lenis?.destroy()
     lenis = null
   }
 }
 
-/** Scroll to a section id (or 0 for the top), using Lenis when it is running. */
-export function scrollToId(id: string | 0) {
-  const target = id === 0 ? 0 : document.getElementById(id)
-  if (target === null) return
+export function scrollToId(id: string) {
+  const el = document.getElementById(id)
+  if (!el) return
+  if (lenis) lenis.scrollTo(el, { offset: -64, duration: 1.4 })
+  else el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+}
+
+export function lockScroll(locked: boolean) {
   if (lenis) {
-    lenis.scrollTo(target, { offset: id === 0 ? 0 : -72 })
-  } else if (target === 0) {
-    window.scrollTo({ top: 0 })
-  } else {
-    target.scrollIntoView()
+    if (locked) lenis.stop()
+    else lenis.start()
   }
-  if (id !== 0) history.replaceState(null, '', `#${id}`)
+  document.documentElement.style.overflow = locked ? 'hidden' : ''
 }

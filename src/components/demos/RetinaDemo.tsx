@@ -1,292 +1,159 @@
-import { useReducedMotion } from 'framer-motion'
 import { useEffect, useRef, useState } from 'react'
+import { useInView } from 'framer-motion'
+import { Shuffle } from 'lucide-react'
+import { analyse, generateFundus, N, CENTER, FOV_RADIUS, type Analysis } from './retina'
 
-const STAGES = ['Fundus', 'Pre-process', 'Vessels', 'Lesions', 'Partitions'] as const
+const STAGES = [
+  { key: 'raw', label: 'Raw', note: 'Synthetic fundus with uneven illumination and sensor noise.' },
+  { key: 'pre', label: 'Pre-process', note: 'Green channel → 3×3 mean → background subtraction → contrast stretch.' },
+  { key: 'morph', label: 'Morphology', note: 'Black-hat (closing − image) lifts dark vessels; top-hat lifts bright exudates.' },
+  { key: 'seg', label: 'Segment', note: 'Thresholds + connected components: vessels, exudates, microaneurysm candidates.' },
+  { key: 'feat', label: 'Features', note: 'Four sub-image partitions → per-quadrant features for the classifier.' },
+] as const
 
-function rng(seed: number) {
-  return () => {
-    seed |= 0
-    seed = (seed + 0x6d2b79f5) | 0
-    let t = Math.imul(seed ^ (seed >>> 15), 1 | seed)
-    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296
-  }
-}
-
-type Seg = { x1: number; y1: number; x2: number; y2: number; w: number }
-type Dot = { x: number; y: number; r: number }
-
-// Geometry in unit space (0..1), generated once.
-function buildScene() {
-  const r = rng(7)
-  const segs: Seg[] = []
-  const disc = { x: 0.66, y: 0.48 }
-  const grow = (x: number, y: number, ang: number, len: number, w: number, depth: number) => {
-    if (depth > 6 || w < 0.0025) return
-    let cx = x
-    let cy = y
-    let a = ang
-    const steps = 6
-    for (let i = 0; i < steps; i++) {
-      a += (r() - 0.5) * 0.35
-      const nx = cx + Math.cos(a) * (len / steps)
-      const ny = cy + Math.sin(a) * (len / steps)
-      segs.push({ x1: cx, y1: cy, x2: nx, y2: ny, w })
-      cx = nx
-      cy = ny
-    }
-    const spread = 0.35 + r() * 0.35
-    grow(cx, cy, a - spread, len * 0.78, w * 0.7, depth + 1)
-    grow(cx, cy, a + spread, len * 0.72, w * 0.66, depth + 1)
-  }
-  // Four main arcades leaving the optic disc
-  ;[-2.5, 2.5, -1.9, 1.9, Math.PI].forEach((a, i) => grow(disc.x, disc.y, a, i < 2 ? 0.2 : 0.14, 0.014, 0))
-
-  const inside = (x: number, y: number) => (x - 0.5) ** 2 + (y - 0.5) ** 2 < 0.44 ** 2
-  const exudates: Dot[] = []
-  for (let c = 0; c < 3; c++) {
-    const cx = 0.3 + r() * 0.3
-    const cy = 0.3 + r() * 0.4
-    for (let i = 0; i < 7; i++) {
-      const x = cx + (r() - 0.5) * 0.12
-      const y = cy + (r() - 0.5) * 0.1
-      if (inside(x, y)) exudates.push({ x, y, r: 0.006 + r() * 0.01 })
-    }
-  }
-  const mas: Dot[] = []
-  for (let i = 0; i < 14; i++) {
-    const x = 0.15 + r() * 0.7
-    const y = 0.15 + r() * 0.7
-    if (inside(x, y) && Math.hypot(x - disc.x, y - disc.y) > 0.1) mas.push({ x, y, r: 0.004 + r() * 0.003 })
-  }
-  return { segs, disc, exudates, mas }
-}
-
-const SCENE = buildScene()
-
-function quadrantStats() {
-  const q = [0, 0, 0, 0].map(() => ({ vessel: 0, ex: 0, ma: 0 }))
-  const idx = (x: number, y: number) => (y < 0.5 ? 0 : 2) + (x < 0.5 ? 0 : 1)
-  SCENE.segs.forEach((s) => (q[idx(s.x1, s.y1)].vessel += Math.hypot(s.x2 - s.x1, s.y2 - s.y1) * s.w))
-  SCENE.exudates.forEach((d) => q[idx(d.x, d.y)].ex++)
-  SCENE.mas.forEach((d) => q[idx(d.x, d.y)].ma++)
-  const maxV = Math.max(...q.map((v) => v.vessel))
-  return q.map((v) => ({ ...v, vessel: v.vessel / maxV }))
-}
-const QUADS = quadrantStats()
-
-function renderStage(stage: number, size: number, dpr: number) {
-  const c = document.createElement('canvas')
-  c.width = c.height = Math.round(size * dpr)
-  const g = c.getContext('2d')!
-  g.scale(dpr * size, dpr * size) // draw in unit space
-  const lw = 1 / size
-
-  g.save()
-  g.beginPath()
-  g.arc(0.5, 0.5, 0.46, 0, Math.PI * 2)
-  g.clip()
-
-  const vessels = (color: string, scale = 1) => {
-    g.strokeStyle = color
-    g.lineCap = 'round'
-    SCENE.segs.forEach((s) => {
-      g.lineWidth = s.w * scale
-      g.beginPath()
-      g.moveTo(s.x1, s.y1)
-      g.lineTo(s.x2, s.y2)
-      g.stroke()
-    })
-  }
-  const dots = (list: Dot[], color: string, k = 1) => {
-    g.fillStyle = color
-    list.forEach((d) => {
-      g.beginPath()
-      g.arc(d.x, d.y, d.r * k, 0, Math.PI * 2)
-      g.fill()
-    })
-  }
-
-  if (stage === 0) {
-    const bg = g.createRadialGradient(0.55, 0.45, 0.05, 0.5, 0.5, 0.5)
-    bg.addColorStop(0, '#e2733a')
-    bg.addColorStop(0.6, '#b6401f')
-    bg.addColorStop(1, '#3a0d06')
-    g.fillStyle = bg
-    g.fillRect(0, 0, 1, 1)
-    // uneven illumination
-    const ill = g.createLinearGradient(0, 0, 1, 1)
-    ill.addColorStop(0, 'rgba(255,220,180,0.18)')
-    ill.addColorStop(1, 'rgba(0,0,0,0.35)')
-    g.fillStyle = ill
-    g.fillRect(0, 0, 1, 1)
-    const disc = g.createRadialGradient(SCENE.disc.x, SCENE.disc.y, 0, SCENE.disc.x, SCENE.disc.y, 0.08)
-    disc.addColorStop(0, 'rgba(255,240,190,1)')
-    disc.addColorStop(1, 'rgba(255,200,120,0)')
-    g.fillStyle = disc
-    g.fillRect(0, 0, 1, 1)
-    vessels('rgba(110,15,10,0.85)')
-    dots(SCENE.exudates, 'rgba(250,225,120,0.95)')
-    dots(SCENE.mas, 'rgba(90,5,5,0.95)')
-  } else if (stage === 1) {
-    g.fillStyle = '#4a4d57'
-    g.fillRect(0, 0, 1, 1)
-    const disc = g.createRadialGradient(SCENE.disc.x, SCENE.disc.y, 0, SCENE.disc.x, SCENE.disc.y, 0.07)
-    disc.addColorStop(0, 'rgba(235,235,240,0.9)')
-    disc.addColorStop(1, 'rgba(235,235,240,0)')
-    g.fillStyle = disc
-    g.fillRect(0, 0, 1, 1)
-    vessels('#15161b')
-    dots(SCENE.exudates, '#f2f3f7')
-    dots(SCENE.mas, '#0b0c10')
-  } else if (stage === 2) {
-    g.fillStyle = '#050507'
-    g.fillRect(0, 0, 1, 1)
-    vessels('#f4f4f6', 0.9)
-  } else {
-    g.fillStyle = '#16171d'
-    g.fillRect(0, 0, 1, 1)
-    vessels('rgba(244,244,246,0.12)')
-    dots(SCENE.exudates, 'rgba(0,240,255,0.95)', 0.9)
-    dots(SCENE.mas, 'rgba(167,139,250,1)', 1.1)
-    g.lineWidth = lw * 1.2
-    g.strokeStyle = 'rgba(0,240,255,0.6)'
-    SCENE.exudates.forEach((d) => {
-      g.beginPath()
-      g.arc(d.x, d.y, d.r + 0.012, 0, Math.PI * 2)
-      g.stroke()
-    })
-    g.strokeStyle = 'rgba(167,139,250,0.8)'
-    SCENE.mas.forEach((d) => {
-      g.strokeRect(d.x - 0.016, d.y - 0.016, 0.032, 0.032)
-    })
-  }
-  g.restore()
-
-  // rim
-  g.lineWidth = lw
-  g.strokeStyle = 'rgba(255,255,255,0.12)'
-  g.beginPath()
-  g.arc(0.5, 0.5, 0.46, 0, Math.PI * 2)
-  g.stroke()
-
-  if (stage === 4) {
-    g.strokeStyle = 'rgba(0,240,255,0.55)'
-    g.setLineDash([lw * 4, lw * 4])
-    g.beginPath()
-    g.moveTo(0.5, 0.02)
-    g.lineTo(0.5, 0.98)
-    g.moveTo(0.02, 0.5)
-    g.lineTo(0.98, 0.5)
-    g.stroke()
-  }
-  return c
-}
-
-export function RetinaDemo() {
-  const wrap = useRef<HTMLDivElement>(null)
+export default function RetinaDemo() {
+  const host = useRef<HTMLDivElement>(null)
   const canvas = useRef<HTMLCanvasElement>(null)
-  const frames = useRef<HTMLCanvasElement[]>([])
-  const [stage, setStage] = useState(0)
-  const [auto, setAuto] = useState(true)
-  const [inView, setInView] = useState(false)
-  const prev = useRef(0)
-  const reduce = useReducedMotion()
+  const inView = useInView(host, { once: true, margin: '200px' })
+  const [seed, setSeed] = useState(260)
+  const [stage, setStage] = useState(3)
+  const [a, setA] = useState<Analysis | null>(null)
 
-  // Build frames on resize
   useEffect(() => {
-    const el = wrap.current!
-    const draw = () => {
-      const size = el.clientWidth
-      const dpr = Math.min(window.devicePixelRatio || 1, 2)
-      frames.current = STAGES.map((_, i) => renderStage(i, size, dpr))
-      const c = canvas.current!
-      c.width = c.height = Math.round(size * dpr)
-      c.getContext('2d')!.drawImage(frames.current[prev.current], 0, 0)
-    }
-    const ro = new ResizeObserver(draw)
-    ro.observe(el)
-    const io = new IntersectionObserver(([e]) => setInView(e.isIntersecting), { threshold: 0.3 })
-    io.observe(el)
-    return () => {
-      ro.disconnect()
-      io.disconnect()
-    }
-  }, [])
+    if (!inView) return
+    // let the frame paint before crunching pixels
+    const id = setTimeout(() => setA(analyse(generateFundus(seed))), 30)
+    return () => clearTimeout(id)
+  }, [seed, inView])
 
-  // Crossfade between stages
   useEffect(() => {
-    const c = canvas.current
-    const f = frames.current
-    if (!c || !f.length) return
-    const g = c.getContext('2d')!
-    const from = f[prev.current]
-    const to = f[stage]
-    prev.current = stage
-    if (reduce) {
-      g.clearRect(0, 0, c.width, c.height)
-      g.drawImage(to, 0, 0)
-      return
+    const cv = canvas.current
+    if (!cv || !a) return
+    const g = cv.getContext('2d')!
+    const s = STAGES[stage].key
+    const img = s === 'raw' ? a.raw : s === 'pre' ? a.pre : s === 'morph' ? a.morph : a.seg
+    g.putImageData(img, 0, 0)
+    if (s === 'seg' || s === 'feat') {
+      g.lineWidth = 1.5
+      g.strokeStyle = '#ff4545'
+      a.mas.forEach((m) => {
+        g.beginPath()
+        g.arc(m.x, m.y, m.r, 0, Math.PI * 2)
+        g.stroke()
+      })
     }
-    let raf = 0
-    const t0 = performance.now()
-    const tick = (now: number) => {
-      const t = Math.min(1, (now - t0) / 550)
-      const e = 1 - Math.pow(1 - t, 3)
-      g.clearRect(0, 0, c.width, c.height)
-      g.globalAlpha = 1
-      g.drawImage(from, 0, 0)
-      g.globalAlpha = e
-      g.drawImage(to, 0, 0)
-      g.globalAlpha = 1
-      if (t < 1) raf = requestAnimationFrame(tick)
+    if (s === 'feat') {
+      g.fillStyle = 'rgba(23,23,23,0.25)'
+      g.fillRect(0, 0, N, N)
+      g.strokeStyle = '#dfff00'
+      g.lineWidth = 2
+      g.setLineDash([5, 4])
+      g.beginPath()
+      g.moveTo(CENTER, CENTER - FOV_RADIUS)
+      g.lineTo(CENTER, CENTER + FOV_RADIUS)
+      g.moveTo(CENTER - FOV_RADIUS, CENTER)
+      g.lineTo(CENTER + FOV_RADIUS, CENTER)
+      g.stroke()
+      g.setLineDash([])
+      g.font = '700 11px "JetBrains Mono", monospace'
+      g.fillStyle = '#dfff00'
+      ;['Q2', 'Q1', 'Q4', 'Q3'].forEach((t, i) => {
+        const x = i % 2 === 0 ? 28 : N - 48
+        const y = i < 2 ? 30 : N - 20
+        g.fillText(t, x, y)
+      })
     }
-    raf = requestAnimationFrame(tick)
-    return () => cancelAnimationFrame(raf)
-  }, [stage, reduce])
+  }, [a, stage])
 
-  // Auto-advance while visible
-  useEffect(() => {
-    if (!auto || !inView || reduce) return
-    const t = setInterval(() => setStage((s) => (s + 1) % STAGES.length), 2200)
-    return () => clearInterval(t)
-  }, [auto, inView, reduce])
+  const total = a ? { ex: a.exudates.length, ma: a.mas.length } : { ex: 0, ma: 0 }
 
   return (
-    <div className="flex h-full flex-col">
-      <div ref={wrap} className="relative mx-auto aspect-square w-full max-w-[340px]">
-        <canvas ref={canvas} className="h-full w-full" role="img" aria-label={`Synthetic retinal image, ${STAGES[stage]} stage`} />
-        {stage === 4 && (
-          <div className="pointer-events-none absolute inset-0 grid grid-cols-2 grid-rows-2 p-[6%] font-mono text-[10px] text-ink">
-            {QUADS.map((q, i) => (
-              <div key={i} className={`flex flex-col gap-0.5 p-2 ${i % 2 ? 'items-end text-right' : ''} ${i > 1 ? 'justify-end' : ''}`}>
-                <span className="rounded bg-void/70 px-1.5 py-0.5">
-                  Q{i + 1} vsl {q.vessel.toFixed(2)}
-                </span>
-                <span className="rounded bg-void/70 px-1.5 py-0.5 text-cyan">ex {q.ex}</span>
-                <span className="rounded bg-void/70 px-1.5 py-0.5 text-violet-300">ma {q.ma}</span>
-              </div>
+    <div ref={host} className="brut bg-paper-2 text-ink">
+      <div className="label flex items-center justify-between border-b-2 border-ink bg-ink px-3 py-2 text-paper">
+        <span>fundus_{String(seed).padStart(3, '0')}.png</span>
+        <span className="text-acid">{a ? `${a.ms.toFixed(0)} ms in-browser` : 'computing…'}</span>
+      </div>
+
+      <div className="grid gap-4 p-4 sm:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] md:p-5">
+        <div className="relative aspect-square w-full border-2 border-ink bg-ink">
+          <canvas
+            ref={canvas}
+            width={N}
+            height={N}
+            className="h-full w-full"
+            role="img"
+            aria-label={`Retinal fundus image, stage: ${STAGES[stage].label}. ${total.ex} exudate regions and ${total.ma} microaneurysm candidates detected.`}
+          />
+          {!a && <div className="label absolute inset-0 flex items-center justify-center text-paper">loading…</div>}
+        </div>
+
+        <div className="flex flex-col gap-3">
+          <div role="tablist" aria-label="Pipeline stage" className="grid grid-cols-5 border-2 border-ink sm:grid-cols-1">
+            {STAGES.map((s, i) => (
+              <button
+                key={s.key}
+                role="tab"
+                aria-selected={stage === i}
+                onClick={() => setStage(i)}
+                className={`label flex items-center gap-2 border-ink px-2 py-2 text-left max-sm:justify-center max-sm:border-r-2 max-sm:last:border-r-0 sm:border-b-2 sm:last:border-b-0 ${
+                  stage === i ? 'bg-orange' : 'bg-paper hover:bg-acid'
+                }`}
+              >
+                <span className="text-muted max-sm:hidden">{String(i + 1).padStart(2, '0')}</span>
+                <span className="max-sm:hidden">{s.label}</span>
+                <span className="sm:hidden">{String(i + 1).padStart(2, '0')}</span>
+              </button>
             ))}
           </div>
-        )}
-      </div>
-      <div role="tablist" aria-label="Pipeline stage" className="mt-4 flex flex-wrap justify-center gap-1.5">
-        {STAGES.map((s, i) => (
+          <p className="min-h-[3.5em] text-[13px] leading-snug" aria-live="polite">
+            <span className="font-semibold sm:hidden">{STAGES[stage].label}: </span>
+            {STAGES[stage].note}
+          </p>
           <button
-            key={s}
-            role="tab"
-            aria-selected={stage === i}
-            onClick={() => {
-              setAuto(false)
-              setStage(i)
-            }}
-            className={`rounded-full border px-2.5 py-1 font-mono text-[10.5px] transition-colors ${
-              stage === i ? 'border-cyan/50 bg-cyan/10 text-cyan' : 'border-line text-slate hover:text-ink'
-            }`}
+            onClick={() => setSeed((s) => (s * 7 + 13) % 997)}
+            data-cursor="NEW EYE"
+            className="brut-sm brut-hover label mt-auto flex items-center justify-center gap-2 bg-acid px-3 py-2"
           >
-            {i + 1}. {s}
+            <Shuffle size={14} /> Generate new eye
           </button>
-        ))}
+        </div>
+      </div>
+
+      <div className="border-t-2 border-ink p-4 md:p-5">
+        <table className="w-full text-left font-mono text-[12px]">
+          <caption className="label mb-2 text-left text-muted">Per-quadrant features</caption>
+          <thead>
+            <tr className="border-b-2 border-ink">
+              <th className="py-1 font-medium">Q</th>
+              <th className="py-1 font-medium">vessel %</th>
+              <th className="py-1 font-medium">exudates</th>
+              <th className="py-1 font-medium">MA</th>
+            </tr>
+          </thead>
+          <tbody>
+            {(a?.quadrants ?? []).map((q, i) => (
+              <tr key={q.name} className="border-b border-line" title={q.name}>
+                <td className="py-1">Q{i + 1}</td>
+                <td className="py-1">
+                  <span className="inline-flex items-center gap-2">
+                    <span className="inline-block h-2 bg-blue" style={{ width: `${Math.min(60, q.vessel * 6)}px` }} />
+                    {q.vessel.toFixed(1)}
+                  </span>
+                </td>
+                <td className="py-1">{q.exudates}</td>
+                <td className="py-1">{q.mas}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <div className="mt-3 flex flex-wrap items-center justify-between gap-2">
+          <span className="label flex flex-wrap gap-3">
+            <span className="flex items-center gap-1"><i className="inline-block h-2.5 w-2.5 bg-blue" /> vessels</span>
+            <span className="flex items-center gap-1"><i className="inline-block h-2.5 w-2.5 border border-ink bg-acid" /> exudates</span>
+            <span className="flex items-center gap-1"><i className="inline-block h-2.5 w-2.5 rounded-full border-2 border-red" /> MA</span>
+          </span>
+          <span className="label bg-ink px-2 py-1 text-paper">toy grade → {a?.grade ?? '…'}</span>
+        </div>
       </div>
     </div>
   )

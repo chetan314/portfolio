@@ -1,43 +1,67 @@
 # Chetan Nandanwar — Portfolio
 
-Single-page portfolio built with Vite, React 19, TypeScript (strict), Tailwind CSS v4, Framer Motion and Lenis.
+A neo-brutalist portfolio for an ML engineer. Swiss editorial grid, hard shadows, colour blocking, and a live in-browser demo inside every project card.
 
-## Run
+**Stack:** Vite · React 19 · TypeScript (strict) · Tailwind CSS v4 · Framer Motion · Lenis · Lucide
+
+## Run locally
 
 ```bash
 npm install
-npm run dev      # http://localhost:5173
-npm run build    # typecheck + production build into dist/
-npm run preview  # serve the production build
+npm run dev        # http://localhost:5173
+npm run build      # type-check + production build → dist/
+npm run preview    # serve the production build
 ```
 
 ## Edit content
 
-All text lives in [`src/data/portfolio.ts`](src/data/portfolio.ts): profile, links, stats, projects, experience, education, publications and skills. Components only read from it.
+Everything you'd want to change lives in **`src/data/portfolio.ts`**: profile, links, model-card copy, projects and case studies, timeline, publications and the skills matrix. Components only read from it.
 
-- **LinkedIn / resume:** fill `profile.links.linkedin` and `profile.links.resume` (put the PDF in `public/` and use `/your-file.pdf`). The icons and buttons appear automatically when set.
-- **Photo:** `public/chetan.jpg`. **Social preview:** `public/og.png` (1200×630).
-- **RAG demo corpus:** `src/data/constitution.ts` (paraphrased articles); retrieval logic in `src/lib/retrieval.ts`.
+- **Resume download:** drop the PDF in `public/` and set `profile.links.resume`.
+- **Project links:** add `links: [{ label: 'GitHub', href: '…' }]` to any project.
+- **Photo:** replace `public/chetan.jpg` (square, ≥ 640px).
 
-## What's where
+## Sections
 
-| Path | Purpose |
-| --- | --- |
-| `src/index.css` | Theme tokens (`@theme`), glass, spotlight and chip styles |
-| `src/components/NeuralCanvas.tsx` | Mouse-reactive neural field in the hero (Canvas 2D, pauses off-screen) |
-| `src/components/Cursor.tsx` | Dot + ring cursor (fine pointers only) |
-| `src/components/demos/RagPlayground.tsx` | Live hybrid retrieval: BM25 + concept-vector "dense" scores, α slider, citation parsing |
-| `src/components/demos/RetinaDemo.tsx` | Procedural fundus image stepping through the DR pipeline stages |
-| `src/lib/scroll.ts` | Lenis smooth scroll and `scrollToId` |
+| # | Section | Interactive piece |
+|---|---|---|
+| 00 | Hero | Attention-map canvas (cursor = query), kinetic type, CV-annotated portrait |
+| 01 | Marquee | Crossed, counter-scrolling strips |
+| 02 | Model card | Tabs (README / Training data / Usage) and animated eval metrics |
+| 03 | Selected work | 4 live demos plus shared-layout case-study dialogs |
+| 04 | Training log | Pinned horizontal scroll with a loss curve that draws itself |
+| 05 | Research | Publications with one-click BibTeX |
+| 06 | Skills matrix | Skill × project grid with filters |
+| 07 | Contact | Terminal (`help`, `projects`, `sudo hire` …) and magnetic CTAs |
 
-Motion respects `prefers-reduced-motion`: Lenis, the cursor, canvas animation and auto-cycling demos switch off.
+### The demos
+
+- **RAG** (`src/lib/retrieval.ts`): real Okapi BM25 fused with a concept-space "dense" score over an 18-article slice of the Constitution. It parses citations like `Art. 21-A` / `243 g`, and you can drag the α slider.
+- **Retinopathy** (`src/components/demos/retina.ts`): a synthetic fundus run through real pixel ops: green channel, denoise, background flattening, black-hat/top-hat, thresholds, connected components and per-quadrant features. About 100 ms in the browser.
+- **Surgical scene**: an illustrative Cholec80-style phase timeline and tool detections. Click a tool to toggle its SAM-style mask.
+- **Data QA**: step through trim → ISO dates → ₹ parsing (incl. "lakh") → de-dup → robust-z anomaly flags.
 
 ## Deploy
 
-**Vercel:** import the repo at vercel.com/new. Vite is detected; `vercel.json` adds long-lived caching for hashed assets.
+### Vercel (recommended)
 
-**Netlify:** import the repo, or run `npx netlify deploy --prod --dir=dist` after `npm run build`. `netlify.toml` has the build settings.
+1. Push this repo to GitHub.
+2. Go to [vercel.com/new](https://vercel.com/new), import the repo and accept the defaults (`vercel.json` sets framework, build command and caching headers).
+3. Vercel exposes `VERCEL_PROJECT_PRODUCTION_URL` at build time, and `vite.config.ts` uses it to write absolute `og:image` / canonical URLs. For a custom domain, set `SITE_URL=https://your.domain` in the project's environment variables.
 
-**Cloudflare Pages:** build command `npm run build`, output directory `dist`.
+Or use the CLI:
 
-After the first deploy, add your live URL as `og:url` in `index.html` so link previews resolve the image with an absolute URL.
+```bash
+npx vercel --prod
+```
+
+### Netlify / Cloudflare Pages
+
+Build command `npm run build`, output directory `dist`, and set `SITE_URL` to the final URL so social previews resolve.
+
+## Performance and accessibility notes
+
+- Only `transform` / `opacity` are animated. Demos are code-split (`React.lazy`), and the hero canvas pauses off-screen and when the tab is hidden.
+- `prefers-reduced-motion` turns off Lenis, the custom cursor, the canvas animation and the marquees, and the timeline switches to a vertical list.
+- The custom cursor only appears on fine pointers. All demos are keyboard-operable, with labelled controls and live regions.
+- Secondary text uses `#666` rather than `#777` so it passes WCAG AA on the paper background.
