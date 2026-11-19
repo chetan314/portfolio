@@ -43,7 +43,15 @@ Everything you'd want to change lives in **`src/data/portfolio.ts`**: profile, l
 
 ## Deploy
 
-### Vercel (recommended)
+### GitHub Pages (live at https://chetan314.github.io/portfolio/)
+
+```bash
+npm run deploy
+```
+
+`scripts/deploy-pages.sh` builds with `BASE_PATH=/portfolio/`, then force-pushes `dist/` to the `gh-pages` branch. GitHub Pages serves that branch. Run it again after every content change; pushing to `main` alone does not redeploy.
+
+### Vercel
 
 1. Push this repo to GitHub.
 2. Go to [vercel.com/new](https://vercel.com/new), import the repo and accept the defaults (`vercel.json` sets framework, build command and caching headers).

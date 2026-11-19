@@ -15,7 +15,7 @@ export const profile = {
   timezone: 'Asia/Kolkata',
   status: 'Open to ML / Data Science roles · 2027',
   email: 'nandanwar_ch@mfs.iitr.ac.in',
-  photo: '/chetan.jpg',
+  photo: `${import.meta.env.BASE_URL}chetan.jpg`,
   links: {
     github: 'https://github.com/chetan314',
     linkedin: 'https://www.linkedin.com/in/chetan-nandanwar-293826225/',

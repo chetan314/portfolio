@@ -14,5 +14,7 @@ function siteUrl(): Plugin {
 }
 
 export default defineConfig({
+  // GitHub Pages serves the site from /portfolio/; Vercel/local use the root.
+  base: process.env.BASE_PATH ?? '/',
   plugins: [react(), tailwindcss(), siteUrl()],
 })
